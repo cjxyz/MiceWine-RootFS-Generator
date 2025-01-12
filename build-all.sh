@@ -28,7 +28,9 @@ setupBuildEnv()
 
 		tar -xf "cache/$MINGW_FILENAME" -C "cache"
 
-		mv "cache/$(tar -tf "cache/$MINGW_FILENAME" | cut -d "/" -f 1 | head -n 1)" "cache/llvm-mingw"
+		# mv "cache/$(tar -tf "cache/$MINGW_FILENAME" | cut -d "/" -f 1 | head -n 1)" "cache/llvm-mingw"
+		FIRST_DIR=$(tar -tf "cache/$MINGW_FILENAME" | cut -d "/" -f 1 | head -n 1)
+		mv "cache/$FIRST_DIR" "cache/llvm-mingw"
 
 		rm -f "cache/$MINGW_FILENAME"
 
