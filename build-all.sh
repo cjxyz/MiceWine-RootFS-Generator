@@ -10,7 +10,10 @@ setupBuildEnv()
 
 		7z x "cache/$NDK_FILENAME" -aoa -o"cache" &> /dev/null
 
-		mv "cache/$(unzip -Z1 "cache/$NDK_FILENAME" | cut -d "/" -f 1 | head -n 1)" "cache/android-ndk"
+		# mv "cache/$(unzip -Z1 "cache/$NDK_FILENAME" | cut -d "/" -f 1 | head -n 1)" "cache/android-ndk"
+  		DIR_NAME=$(unzip -Z1 "cache/$NDK_FILENAME" | awk -F/ '{print $1}' | uniq | head -n 1)
+		mv "cache/$DIR_NAME" "cache/android-ndk"
+
 
 		rm -f "cache/$NDK_FILENAME"
 
@@ -26,7 +29,9 @@ setupBuildEnv()
 
 		tar -xf "cache/$MINGW_FILENAME" -C "cache"
 
-		mv "cache/$(tar -tf "cache/$MINGW_FILENAME" | cut -d "/" -f 1 | head -n 1)" "cache/llvm-mingw"
+		# mv "cache/$(tar -tf "cache/$MINGW_FILENAME" | cut -d "/" -f 1 | head -n 1)" "cache/llvm-mingw"
+  		DIR_NAME=$(tar -tf "cache/$MINGW_FILENAME" | awk -F/ '{print $1}' | uniq | head -n 1)
+		mv "cache/$DIR_NAME" "cache/llvm-mingw"
 
 		rm -f "cache/$MINGW_FILENAME"
 
@@ -77,14 +82,16 @@ downloadAndExtractPackage()
 	local ARCHIVE_MIME_TYPE=$(file -b --mime-type $INIT_DIR/cache/$package)
 
 	case $ARCHIVE_MIME_TYPE in "application/x-xz"|"application/gzip"|"application/x-bzip2")
-		ARCHIVE_BASE_FOLDER=$(tar -tf "$INIT_DIR/cache/$package" | cut -d "/" -f 1 | head -n 1)
+		# ARCHIVE_BASE_FOLDER=$(tar -tf "$INIT_DIR/cache/$package" | cut -d "/" -f 1 | head -n 1)
+		ARCHIVE_BASE_FOLDER=$(tar -tf "$INIT_DIR/cache/$package" | awk -F/ '{print $1}' | uniq | head -n 1)
 
 		if [ ! -f "$ARCHIVE_BASE_FOLDER" ]; then
 			tar -xf "$INIT_DIR/cache/$package"
 		fi
 		;;
 		*)
-		ARCHIVE_BASE_FOLDER=$(unzip -Z1 "$INIT_DIR/cache/$package" | cut -d "/" -f 1 | head -n 1)
+		# ARCHIVE_BASE_FOLDER=$(unzip -Z1 "$INIT_DIR/cache/$package" | cut -d "/" -f 1 | head -n 1)
+  		ARCHIVE_BASE_FOLDER=$(unzip -Z1 "$INIT_DIR/cache/$package" | awk -F/ '{print $1}' | uniq | head -n 1)
 
 		if [ ! -f "$ARCHIVE_BASE_FOLDER" ]; then
 			unzip -o "$INIT_DIR/cache/$package" 1> /dev/null
@@ -134,7 +141,8 @@ setupPackage()
 	. "$INIT_DIR/packages/$package/build.sh"
 
 	if [ -n "$GIT_COMMIT" ]; then
-		PKG_VER=$(echo $PKG_VER | sed "s/\[gss\]/$(echo $GIT_COMMIT | cut -c1-7)/g")
+		# PKG_VER=$(echo $PKG_VER | sed "s/\[gss\]/$(echo $GIT_COMMIT | cut -c1-7)/g")
+		PKG_VER=$(echo $PKG_VER | sed "s|\[gss\]|$(echo $GIT_COMMIT | cut -c1-7)|g")
 	fi
 
 	if [ ! -f "$INIT_DIR/built-pkgs/$package-$PKG_VER-$ARCHITECTURE.rat" ]; then
