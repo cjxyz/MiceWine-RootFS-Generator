@@ -10,7 +10,9 @@ setupBuildEnv()
 
 		7z x "cache/$NDK_FILENAME" -aoa -o"cache" &> /dev/null
 
-		mv "cache/$(unzip -Z1 "cache/$NDK_FILENAME" | cut -d "/" -f 1 | head -n 1)" "cache/android-ndk"
+		# mv "cache/$(unzip -Z1 "cache/$NDK_FILENAME" | cut -d "/" -f 1 | head -n 1)" "cache/android-ndk"
+  		FIRST_DIR=$(unzip -Z1 "cache/$NDK_FILENAME" | cut -d "/" -f 1 | head -n 1)
+		mv "cache/$FIRST_DIR" "cache/android-ndk"
 
 		rm -f "cache/$NDK_FILENAME"
 
