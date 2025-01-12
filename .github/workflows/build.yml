@@ -10,8 +10,10 @@ jobs:
 
     steps:
     - name: "Clone Repository"
-      run: |
-        git clone https://github.com/KreitinnSoftware/MiceWine-RootFS-Generator
+      uses: actions/checkout@v3
+      with:
+        path: MiceWine-RootFS-Generator
+        fetch-depth: 0
 
     - name: "Environment Preparation"
       run: |
