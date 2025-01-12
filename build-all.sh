@@ -146,7 +146,7 @@ setupPackage()
 	fi
 
 	if [ ! -f "$INIT_DIR/built-pkgs/$package-$PKG_VER-$ARCHITECTURE.rat" ]; then
-		if [ -e "$INIT_DIR/workdir/$package/build.sh" ]; then
+		if [ -e "$INIT_DIR/workdir/$package/build.sh" ] && false; then
 			echo "-- Package '$package' already configured."
 		else
 			if [ "$BLACKLIST_ARCHITECTURE" == "$ARCHITECTURE" ]; then
@@ -390,7 +390,7 @@ compileAll()
 			fi
 		fi
 
-		if [ -f "$INIT_DIR/built-pkgs/$package-$pkgVersion-$ARCHITECTURE.rat" ]; then
+		if [ -f "$INIT_DIR/built-pkgs/$package-$pkgVersion-$ARCHITECTURE.rat" ] && false; then
 			echo "-- Package '$package' already built."
 		else
 			echo "-- Compiling Package '$package'..."
