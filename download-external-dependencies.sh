@@ -84,7 +84,7 @@ dxvkGplAsyncDownload() {
 
 		cd "DXVK"
 
-		curl -# -L -O "https://github.com/KreitinnSoftware/dxvk-gplasync/raw/refs/heads/main/dxvk-gplasync-v$1.tar.gz"
+		curl -# -L -O "https://github.com/cjxyz/dxvk-gplasync/raw/refs/heads/main/dxvk-gplasync-v$1.tar.gz"
 
 		if [ $? != 0 ]; then
 			echo "Error on Downloading DXVK-$1-gplasync."
@@ -207,7 +207,7 @@ for i in "2.4-1" "2.3.1-1" "2.3-1" "2.2-4" "2.1-4"; do
 	dxvkGplAsyncDownload "$i"
 done
 
-for i in "2.0" "1.10.3" "1.10.2" "1.10.1" "1.10" "1.9.4" "1.9.3" "1.9.2" "1.9.1" "1.9"; do
+for i in "2.0" "1.10.3" "1.10.2" "1.10.1" "1.10" "1.9.4" "1.9.3" "1.9.2" "1.9.1" "1.9" "1.7.3"; do
 	dxvkAsyncDownload "$i"
 done
 
