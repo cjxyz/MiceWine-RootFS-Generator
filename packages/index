@@ -54,8 +54,6 @@ zstd
 libarchive
 android-shmem
 mesa-vulkan-freedreno
-mesa-vulkan-radeon
-mesa-vulkan-wrapper-rev8
 mesa-vulkan-wrapper-rev9
 mesa-zink
 pcre2
