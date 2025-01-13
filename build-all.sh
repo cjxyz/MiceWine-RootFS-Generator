@@ -106,12 +106,12 @@ gitDownload()
 	if [ -d "$INIT_DIR/cache/$package" ]; then
 		echo "-- Package '$package' already downloaded."
 
-		git clone "$INIT_DIR/cache/$package" &> /dev/zero
+		git clone --depth 1 "$INIT_DIR/cache/$package" &> /dev/zero
 	else
 		echo "-- Git Cloning '$package'..."
 
 		git clone --no-checkout $GIT_URL "$INIT_DIR/cache/$package" &> /dev/zero
-		git clone "$INIT_DIR/cache/$package" &> /dev/zero
+		git clone --depth 1 "$INIT_DIR/cache/$package" &> /dev/zero
 	fi
 
 	cd $package
