@@ -35,23 +35,23 @@ jobs:
     #     curl -LO# https://github.com/KreitinnSoftware/MiceWine-RootFS-Generator/releases/download/$(curl -s https://api.github.com/repos/KreitinnSoftware/MiceWine-RootFS-Generator/releases | grep tag_name -m 1 | cut -d ":" -f 2 | sed "s/\"//g" | sed "s/,//g" | sed "s/ //g")/MiceWine-Packages.zip || true
     #     unzip -o MiceWine-Packages.zip -d built-pkgs || true
 
-    # - name: "Start Building (x86_64)"
-    #   run: |
-    #     cd MiceWine-RootFS-Generator
-    #     ./build-all.sh x86_64
-    #     cd logs
-    #     7z a /home/runner/MiceWine-RootFS-x86_64-Logs.zip
+    - name: "Start Building (x86_64)"
+      run: |
+        cd MiceWine-RootFS-Generator
+        ./build-all.sh x86_64
+        cd logs
+        7z a /home/runner/MiceWine-RootFS-x86_64-Logs.zip
 
-    # - name: "Create RootFS File (x86_64)"
-    #   run: |
-    #     cd MiceWine-RootFS-Generator
-    #     ./create-rootfs.sh x86_64
-    #     mv "MiceWine-RootFS-($(git rev-parse --short HEAD))-x86_64.rat" /home/runner/MiceWine-RootFS-x86_64.rat
+    - name: "Create RootFS File (x86_64)"
+      run: |
+        cd MiceWine-RootFS-Generator
+        ./create-rootfs.sh x86_64
+        mv "MiceWine-RootFS-($(git rev-parse --short HEAD))-x86_64.rat" /home/runner/MiceWine-RootFS-x86_64.rat
 
-    # - name: "Clean (x86_64) RootFS"
-    #   run: |
-    #     cd MiceWine-RootFS-Generator
-    #     sudo rm -rf /data/data/com.nianticlabs.pokemongo/files/usr workdir rootfs
+    - name: "Clean (x86_64) RootFS"
+      run: |
+        cd MiceWine-RootFS-Generator
+        sudo rm -rf /data/data/com.nianticlabs.pokemongo/files/usr workdir rootfs
 
     - name: "Start Building (aarch64)"
       run: |
