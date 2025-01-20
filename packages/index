@@ -55,6 +55,7 @@ libarchive
 android-shmem
 mesa-vulkan-freedreno
 mesa-vulkan-wrapper-rev9
+meas-vulkan-wrapper
 mesa-zink
 pcre2
 glib
