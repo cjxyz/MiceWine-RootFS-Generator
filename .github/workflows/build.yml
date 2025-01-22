@@ -33,7 +33,7 @@ jobs:
       run: |
         cd MiceWine-RootFS-Generator
         # curl -LO# https://github.com/KreitinnSoftware/MiceWine-RootFS-Generator/releases/download/$(curl -s https://api.github.com/repos/KreitinnSoftware/MiceWine-RootFS-Generator/releases | grep tag_name -m 1 | cut -d ":" -f 2 | sed "s/\"//g" | sed "s/,//g" | sed "s/ //g")/MiceWine-Packages.zip || true
-        wget https://github.com/cjxyz/MiceWine-RootFS-Generator/releases/download/6a610d9/MiceWine-Packages.zip
+        wget https://github.com/cjxyz/MiceWine-RootFS-Generator/releases/download/62302f4/MiceWine-Packages.zip
         unzip -o MiceWine-Packages.zip -d built-pkgs || true
 
     - name: "Start Building (x86_64)"
