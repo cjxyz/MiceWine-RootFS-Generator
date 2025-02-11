@@ -235,6 +235,6 @@ customDxvkDownload "DXVK-1.7.3-Stripped-Requirements" "https://github.com/Kreiti
 customDxvkDownload "DXVK-1.10.6-Sarek-Stripped-Requirements" "https://github.com/KreitinnSoftware/dxvk-gplasync/raw/refs/heads/main/dxvk-sarek-stripped.tar.gz"
 customDxvkDownload "DXVK-1.10.6-Sarek" "https://github.com/pythonlover02/DXVK-Sarek/releases/download/v1.10.6/dxvk-sarek-v1.10.6.tar.gz"
 customDxvkDownload "DXVK-1.10.6-Sarek-ASync" "https://github.com/pythonlover02/DXVK-Sarek/releases/download/v1.10.6/dxvk-sarek-async-v1.10.6.tar.gz"
-customDxvkDownload "DXVK-2.4.1-MinGW-LLVM" "https://github.com/v3kt0r-87/DXVK-LLVM_MINGW/releases/download/2.4.1-llvm_mingw-20.0.1.0/DXVK_2.4.1-LLVM-MINGW-20.0.1.0.zip"
+customDxvkDownload "DXVK-2.4.1-MinGW-LLVM" "https://github.com/cjxyz/dxvk-gplasync/raw/refs/heads/main/dxvk-2.4.1-llvm-mingw.tar.gz"
 
 cp -rf "$INIT_DIR/etc/"* .
