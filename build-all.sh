@@ -407,6 +407,9 @@ compileAll()
 				sudo umount /usr/include
 			fi
 
+			cp ../build.sh "$INIT_DIR/logs/$package-build1.sh.txt"
+			cp ../build.sh "$INIT_DIR/logs/$package-build2.sh.txt"
+
 			if [ "$?" != "0" ]; then
 				echo "- Package: '"$package"' failed to compile. Check logs"
 				exit 0
