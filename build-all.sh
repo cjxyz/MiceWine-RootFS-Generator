@@ -174,6 +174,8 @@ setupPackage()
 
 				if [ -e "configure.ac" ] && [ -e "autogen.sh" ] && [ -n "$CONFIGURE_ARGS" ]; then
 					
+					echo "cd .." >> build.sh
+					echo "autoconf" >> build.sh
 					echo "./autogen.sh" >> build.sh
 
 					if [ -n "$HOST_BUILD_CONFIGURE_ARGS" ]; then
@@ -184,7 +186,7 @@ setupPackage()
 						echo 'cd $OLDPWD' >> build.sh
 					fi
 
-					echo "../configure --libdir=$PREFIX_DIR/lib --prefix=$PREFIX_DIR $CONFIGURE_ARGS" >> build.sh
+					echo "./configure --libdir=$PREFIX_DIR/lib --prefix=$PREFIX_DIR $CONFIGURE_ARGS" >> build.sh
 					echo "$RUN_POST_CONFIGURE" >> build.sh
 
 					if [ -e "$INIT_DIR/packages/$package/post-configure.sh" ]; then
