@@ -175,7 +175,6 @@ setupPackage()
 				if [ -e "configure.ac" ] && [ -e "autogen.sh" ] && [ -n "$CONFIGURE_ARGS" ]; then
 					
 					echo "cd .." >> build.sh
-					echo "autoconf" >> build.sh
 					echo "./autogen.sh" >> build.sh
 
 					if [ -n "$HOST_BUILD_CONFIGURE_ARGS" ]; then
