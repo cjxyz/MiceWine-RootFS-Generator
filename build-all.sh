@@ -172,7 +172,12 @@ setupPackage()
 					echo "export PKG_CONFIG_PATH=$PKG_CONFIG_PATH" >> build.sh
 				fi
 
-				if [ -e "./configure" ] && [ -n "$CONFIGURE_ARGS" ]; then
+				if [ -e "./configure" ] || [ -e "./configure.ac" ] && [ -n "$CONFIGURE_ARGS" ]; then
+
+					if [ -e "./configure.ac" ]; then
+						echo "autoreconf --install" >> build.sh
+					fi
+
 					if [ -n "$HOST_BUILD_CONFIGURE_ARGS" ]; then
 						echo "mkdir -p $HOST_BUILD_FOLDER" >> build.sh
 						echo "cd $HOST_BUILD_FOLDER" >> build.sh
@@ -401,7 +406,8 @@ compileAll()
 				sudo mount --bind $PREFIX/include /usr/include
 			fi
 
-			../build.sh 1> "$INIT_DIR/logs/$package-log.txt" 2> "$INIT_DIR/logs/$package-error_log.txt"
+			# ../build.sh 1> "$INIT_DIR/logs/$package-log.txt" 2> "$INIT_DIR/logs/$package-error_log.txt"
+			../build.sh 1> >(tee "$INIT_DIR/logs/$package-log.txt") 2> >(tee "$INIT_DIR/logs/$package-error_log.txt" >&2)
 
 			if [ -f "../hide-host-include" ]; then
 				sudo umount /usr/include
