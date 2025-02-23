@@ -7,7 +7,7 @@ index ec2d753..d5df928 100644
      FILE *f;
 
 -    f = fopen( "/etc/machine-id", "r" );
-+    f = fopen( "/data/data/com.termux/files/usr/etc/machine-id", "r" );
++    f = fopen( "/data/data/com.micewine.emu/files/usr/etc/machine-id", "r" );
      if (!f)
      {
          fprintf( stderr, "Failed to open /etc/machine-id, error %s.\n", strerror(>

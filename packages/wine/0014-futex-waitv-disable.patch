@@ -23,11 +23,11 @@ index c3da44e..13cb521 100644
  
      if (st.st_ino != (unsigned long)st.st_ino)
 -        sprintf( shm_name, "/wine-%lx%08lx-fsync", (unsigned long)((unsigned long long)st.st_ino >> 32), (unsigned long)st.st_ino );
-+        sprintf( shm_name, "/data/data/com.termux/files/usr/tmp/wine-%lx%08lx-fsync", (unsigned long)((unsigned long long)st.st_ino >> 32), (unsigned long)st.st_ino );
++        sprintf( shm_name, "/data/data/com.micewine.emu/files/usr/tmp/wine-%lx%08lx-fsync", (unsigned long)((unsigned long long)st.st_ino >> 32), (unsigned long)st.st_ino );
      else
 -        sprintf( shm_name, "/wine-%lx-fsync", (unsigned long)st.st_ino );
 -
-+        sprintf( shm_name, "/data/data/com.termux/files/usr/tmp/wine-%lx-fsync", (unsigned long)st.st_ino );
++        sprintf( shm_name, "/data/data/com.micewine.emu/files/usr/tmp/wine-%lx-fsync", (unsigned long)st.st_ino );
 +    #if defined(__linux__) && !defined(__ANDROID__)
      if ((shm_fd = shm_open( shm_name, O_RDWR, 0644 )) == -1)
      {
@@ -116,11 +116,11 @@ index dc50aa0..e6abc28 100644
  
      if (st.st_ino != (unsigned long)st.st_ino)
 -        sprintf( shm_name, "/wine-%lx%08lx-fsync", (unsigned long)((unsigned long long)st.st_ino >> 32), (unsigned long)st.st_ino );
-+        sprintf( shm_name, "/data/data/com.termux/files/usr/tmp/wine-%lx%08lx-fsync", (unsigned long)((unsigned long long)st.st_ino >> 32), (unsigned long)st.st_ino );
++        sprintf( shm_name, "/data/data/com.micewine.emu/files/usr/tmp/wine-%lx%08lx-fsync", (unsigned long)((unsigned long long)st.st_ino >> 32), (unsigned long)st.st_ino );
      else
 -        sprintf( shm_name, "/wine-%lx-fsync", (unsigned long)st.st_ino );
 -
-+        sprintf( shm_name, "/data/data/com.termux/files/usr/tmp/wine-%lx-fsync", (unsigned long)st.st_ino );
++        sprintf( shm_name, "/data/data/com.micewine.emu/files/usr/tmp/wine-%lx-fsync", (unsigned long)st.st_ino );
 +#if defined(__linux__) && !defined(__ANDROID__)
      if (!shm_unlink( shm_name ))
          fprintf( stderr, "fsync: warning: a previous shm file %s was not properly removed\n", shm_name );

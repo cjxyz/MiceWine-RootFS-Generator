@@ -157,7 +157,11 @@ setupPackage()
 				cd $package
 				applyPatches
 
-				echo "export CFLAGS=\"$CFLAGS\" LIBS=\"$LIBS\" CPPFLAGS=\"$CPPFLAGS\" LDFLAGS=\"$LDFLAGS\"" > build.sh
+				if [ "$package" == "wine" ]; then
+					echo "export CFLAGS=\"$CFLAGS\" LIBS=\"$LIBS\" CPPFLAGS=\"-D__MICEWINE__ $CPPFLAGS\" LDFLAGS=\"$LDFLAGS\"" > build.sh
+				else
+					echo "export CFLAGS=\"$CFLAGS\" LIBS=\"$LIBS\" CPPFLAGS=\"$CPPFLAGS\" LDFLAGS=\"$LDFLAGS\"" > build.sh
+				fi
 				echo "export DESTDIR=\"$INIT_DIR/workdir/$package/destdir-pkg\"" >> build.sh
 
 				PREFIX_DIR=$PREFIX
