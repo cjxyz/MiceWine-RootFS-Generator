@@ -176,7 +176,35 @@ setupPackage()
 					echo "export PKG_CONFIG_PATH=$PKG_CONFIG_PATH" >> build.sh
 				fi
 
-				if [ -e "./configure" ] && [ -n "$CONFIGURE_ARGS" ]; then
+				if [ -e "configure.ac" ] && [ -e "autogen.sh" ] && [ -n "$CONFIGURE_ARGS" ]; then
+					
+					echo "cd .." >> build.sh
+					echo "./autogen.sh" >> build.sh
+
+					if [ -n "$HOST_BUILD_CONFIGURE_ARGS" ]; then
+						echo "mkdir -p $HOST_BUILD_FOLDER" >> build.sh
+						echo "cd $HOST_BUILD_FOLDER" >> build.sh
+						echo "env -i bash -l -c \"../configure $HOST_BUILD_CONFIGURE_ARGS\"" >> build.sh
+						echo "$HOST_BUILD_MAKE" >> build.sh
+						echo 'cd $OLDPWD' >> build.sh
+					fi
+
+					echo "./configure --libdir=$PREFIX_DIR/lib --prefix=$PREFIX_DIR $CONFIGURE_ARGS" >> build.sh
+					echo "$RUN_POST_CONFIGURE" >> build.sh
+
+					if [ -e "$INIT_DIR/packages/$package/post-configure.sh" ]; then
+						echo "$INIT_DIR/packages/$package/post-configure.sh" >> build.sh
+					fi
+
+					echo "make -j $(nproc)" >> build.sh
+
+					if [ -e "$INIT_DIR/packages/$package/custom-make-install.sh" ]; then
+						echo "$INIT_DIR/packages/$package/custom-make-install.sh" >> build.sh
+					else
+						echo "make -j $(nproc) install" >> build.sh
+					fi
+
+				elif [ -e "./configure" ] && [ -n "$CONFIGURE_ARGS" ]; then
 					if [ -n "$HOST_BUILD_CONFIGURE_ARGS" ]; then
 						echo "mkdir -p $HOST_BUILD_FOLDER" >> build.sh
 						echo "cd $HOST_BUILD_FOLDER" >> build.sh
@@ -199,6 +227,7 @@ setupPackage()
 					else
 						echo "make -j $(nproc) install" >> build.sh
 					fi
+
 				elif [ -e "autogen.sh" ] && [ -n "$CONFIGURE_ARGS" ]; then
 					echo "cd .." >> build.sh
 					echo "./autogen.sh" >> build.sh
@@ -217,6 +246,7 @@ setupPackage()
 					else
 						echo "make -j $(nproc) install" >> build.sh
 					fi
+
 				elif [ -e "./CMakeLists.txt" ] && [ -n "$CMAKE_ARGS" ]; then
 					echo "cmake -DCMAKE_INSTALL_PREFIX=$PREFIX_DIR -DCMAKE_INSTALL_LIBDIR=$PREFIX_DIR/lib $CMAKE_ARGS .." >> build.sh
 					echo "make -j $(nproc)" >> build.sh
@@ -405,14 +435,12 @@ compileAll()
 				sudo mount --bind $PREFIX/include /usr/include
 			fi
 
-			../build.sh 1> "$INIT_DIR/logs/$package-log.txt" 2> "$INIT_DIR/logs/$package-error_log.txt"
+			../build.sh 1> >(tee "$INIT_DIR/logs/$package-log.txt") 2> >(tee "$INIT_DIR/logs/$package-error_log.txt" >&2)
+			# ../build.sh 1> "$INIT_DIR/logs/$package-log.txt" 2> "$INIT_DIR/logs/$package-error_log.txt"
 
 			if [ -f "../hide-host-include" ]; then
 				sudo umount /usr/include
 			fi
-
-			cp ../build.sh "$INIT_DIR/logs/$package-build1.sh.txt"
-			cp ../build.sh "$INIT_DIR/logs/$package-build2.sh.txt"
 
 			if [ "$?" != "0" ]; then
 				echo "- Package: '"$package"' failed to compile. Check logs"
