@@ -18,7 +18,7 @@ jobs:
     - name: "Environment Preparation"
       run: |
         sudo apt update
-        sudo apt install -y python3 python3-pip cmake wget git p7zip build-essential pkg-config xmlto fop xsltproc llvm autoconf libxml-parser-perl bison flex glslang-tools libxi-dev libgnutls28-dev gnutls-bin
+        sudo apt install -y python3 python3-pip cmake wget git p7zip build-essential pkg-config xmlto fop xsltproc llvm autoconf libxml-parser-perl bison flex glslang-tools libxi-dev libgnutls28-dev gnutls-bin proot
         pip3 install mako meson ninja docutils StrEnum
         sudo ln -sf ~/.local/bin/meson /usr/bin/meson
 
@@ -28,6 +28,13 @@ jobs:
         sudo cp -rf termux-docker/system/x86 /system
         sudo chown -R $(whoami):$(whoami) /system
         sudo chmod 755 -R /system
+
+    - name: "Install dependencies in Termux"
+      run: |
+        export PREFIX=/system
+        export PATH=$PREFIX/bin:$PATH
+        /system/bin/sh
+        pkg update && pkg install fontconfig, libdrm, freetype, krb5, libandroid-spawn, libandroid-shmem, libc++, libgmp, libgnutls, libxcb, libxcomposite, libxcursor, libxfixes, libxrender, mesa, opengl, pulseaudio, sdl2, vulkan-loader, xorg-xrandr
 
     - name: "Download Latest Release Rat Packages"
       run: |
