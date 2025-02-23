@@ -1,0 +1,27 @@
+From 4762fa7fa20c7103a43dfe3855757f60ea7d39fb Mon Sep 17 00:00:00 2001
+From: PixelyIon <pixelyion@protonmail.com>
+Date: Mon, 14 Aug 2023 17:09:11 +0000
+Subject: [PATCH] loader: Use RWX rather than RW while processing relocations
+
+The sections of a program are temporarily reprotected to RW while processing
+relocations, this is problematic as SELinux doesn't allow any dirty pages to be
+reprotected as executable if they weren't executable when the writes took place
+under the execmod policy. To fix this, the sections are now reprotected to RWX
+instead so the policy isn't triggered during the reprotection to executable.
+---
+ dlls/ntdll/loader.c | 2 +-
+ 1 file changed, 1 insertion(+), 1 deletion(-)
+
+diff --git a/dlls/ntdll/loader.c b/dlls/ntdll/loader.c
+index 619efcac7a7..6b59905db3c 100644
+--- a/dlls/ntdll/loader.c
++++ b/dlls/ntdll/loader.c
+@@ -2200,7 +2200,7 @@ static NTSTATUS perform_relocations( void *module, IMAGE_NT_HEADERS *nt, SIZE_T
+         void *addr = get_rva( module, sec[i].VirtualAddress );
+         SIZE_T size = sec[i].SizeOfRawData;
+         NtProtectVirtualMemory( NtCurrentProcess(), &addr,
+-                                &size, PAGE_READWRITE, &protect_old[i] );
++                                &size, PAGE_EXECUTE_READWRITE, &protect_old[i] );
+     }
+ 
+     TRACE( "relocating from %p-%p to %p-%p\n",

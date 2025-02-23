@@ -1,0 +1,28 @@
+From 1e09cca7a2f413ac178dddad70aa9289d5659bc0 Mon Sep 17 00:00:00 2001
+From: PixelyIon <pixelyion@protonmail.com>
+Date: Sun, 6 Aug 2023 10:58:53 +0000
+Subject: [PATCH] dnsapi: Don't treat no records response as bad packet
+
+Any DNS response containing no answers is construed as a bad packet by
+`extract_message_records` when it could be entirely valid, this has now been
+fixed by returning `DNS_INFO_NO_RECORDS` rather than `DNS_ERROR_BAD_PACKET`.
+---
+ dlls/dnsapi/record.c | 5 ++++-
+ 1 file changed, 4 insertions(+), 1 deletion(-)
+
+diff --git a/dlls/dnsapi/record.c b/dlls/dnsapi/record.c
+index 1b4cbfeac0f..f88bdef470f 100644
+--- a/dlls/dnsapi/record.c
++++ b/dlls/dnsapi/record.c
+@@ -1144,7 +1144,10 @@ static DNS_STATUS extract_message_records( const DNS_MESSAGE_BUFFER *buffer, WOR
+     const BYTE *ptr = (const BYTE *)buffer->MessageBody;
+     unsigned int num;
+ 
+-    if (hdr->IsResponse && !hdr->AnswerCount) return DNS_ERROR_BAD_PACKET;
++    if (hdr->IsResponse && !hdr->AnswerCount)
++      ret = DNS_INFO_NO_RECORDS; /* The DNS server can return an empty packet
++                                    that's still valid but doesn't contain any
++                                    records */
+ 
+     for (num = 0; num < hdr->QuestionCount; num++)
+         if (!(ptr = skip_record( ptr, end, DnsSectionQuestion ))) return DNS_ERROR_BAD_PACKET;

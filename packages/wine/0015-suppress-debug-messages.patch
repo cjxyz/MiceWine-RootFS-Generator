@@ -1,0 +1,52 @@
+diff --git a/dlls/ntdll/unix/fsync.c b/dlls/ntdll/unix/fsync.c
+index c3da44e..67f98fb 100644
+--- a/dlls/ntdll/unix/fsync.c
++++ b/dlls/ntdll/unix/fsync.c
+@@ -177,8 +177,6 @@ int do_fsync(void)
+     return do_fsync_cached;
+ #else
+     static int once;
+-    if (!once++)
+-        FIXME("futexes not supported on this platform.\n");
+     return 0;
+ #endif
+ }
+diff --git a/loader/preloader.c b/loader/preloader.c
+index f27d6df..c3b6f29 100644
+--- a/loader/preloader.c
++++ b/loader/preloader.c
+@@ -1513,7 +1513,6 @@ void* wld_start( void **stack )
+     /* expose ld.so _r_debug as a separate namespace in r_next */
+     ld_so_r_debug = find_symbol( &ld_so_map, "_r_debug", STT_OBJECT );
+     if (ld_so_r_debug) _r_debug.r_next = (struct wld_r_debug_extended *)ld_so_r_debug;
+-    else wld_printf( "_r_debug not found in ld.so\n" );
+ 
+     _r_debug_state(); /* notify GDB that _r_debug is ready */
+ 
+diff --git a/server/thread.c b/server/thread.c
+index 71c00fb..42f68f5 100644
+--- a/server/thread.c
++++ b/server/thread.c
+@@ -235,11 +235,11 @@ static int nice_limit;
+ 
+ void init_threading(void)
+ {
+-#ifdef __linux__
++#if defined(__linux__)
+ #ifdef RLIMIT_NICE
+     struct rlimit rlimit;
+ #endif
+-#ifdef HAVE_SETPRIORITY
++#ifdef HAVE_SETPRIORITY && !defined(__ANDROID__)
+     /* if wineserver has cap_sys_nice we are unlimited, but leave -20 to the user */
+     if (!setpriority( PRIO_PROCESS, getpid(), -20 )) nice_limit = -19;
+     setpriority( PRIO_PROCESS, getpid(), 0 );
+@@ -811,7 +811,7 @@ static void apply_thread_priority( struct thread *thread, int priority_class, in
+ 
+     /* FIXME: handle REALTIME class using SCHED_RR if possible, for now map it to highest non-realtime band */
+     if (priority_class == PROCESS_PRIOCLASS_REALTIME) base_priority = 15;
+-#ifdef HAVE_SETPRIORITY
++#ifdef HAVE_SETPRIORITY && !defined(__ANDROID__)
+     if (nice_limit < 0)
+     {
+         niceness = get_unix_niceness( base_priority );
