@@ -53,6 +53,7 @@ libxml2
 zstd
 libarchive
 android-shmem
+mesa-vulkan-wrapper-adrenotools
 mesa-vulkan-freedreno
 mesa-vulkan-radeon
 mesa-vulkan-wrapper-rev8
