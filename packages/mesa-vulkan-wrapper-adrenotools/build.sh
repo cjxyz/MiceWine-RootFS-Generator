@@ -5,7 +5,7 @@ VK_DRIVER_LIB="libvulkan_wrapper.so"
 
 BLACKLIST_ARCHITECTURE=x86_64
 
-GIT_URL=https://github.com/xMeM/mesa
-GIT_COMMIT=e65c7eb6ee2f9903c3256f2677beb1d98464103f
+GIT_URL=https://github.com/cjxyz/mesa
+GIT_COMMIT=c0bacaa18d8bf2a16f33e579259ab3effb6108fe
 LDFLAGS="-L$PREFIX/lib -landroid-shmem -ladrenotools -llinkernsbypass"
 MESON_ARGS="-Dgallium-drivers= -Dvulkan-drivers=wrapper -Dglvnd=disabled -Dplatforms=x11 -Dxmlconfig=disabled -Dllvm=disabled -Dopengl=false -Degl=disabled -Dzstd=enabled"
