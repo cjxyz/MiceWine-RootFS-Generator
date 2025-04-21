@@ -1,9 +1,10 @@
 PKG_VER=25.0.0
 PKG_CATEGORY="VulkanDriver"
 PKG_PRETTY_NAME="Mesa Turnip Driver"
+PKG_OPTIONAL=1
 VK_DRIVER_LIB="libvulkan_freedreno.so"
 
-BLACKLIST_ARCHITECTURE=x86_64
+BLACKLIST_ARCH=x86_64
 
 SRC_URL=https://archive.mesa3d.org/mesa-$PKG_VER.tar.xz
 LDFLAGS="-L$PREFIX/lib -landroid-shmem"
